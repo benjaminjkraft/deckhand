@@ -10,13 +10,15 @@ import (
 )
 
 func TestEncoders(t *testing.T) {
+	iterations := 10000
 	tests := []struct {
-		encoder    func(Deck) []byte
-		decoder    func([]byte) Deck
-		maxLen     int
-		iterations int
+		encoder func(Deck) []byte
+		decoder func([]byte) Deck
+		maxLen  int
 	}{
-		{IndexEncode, IndexDecode, 29, 10000},
+		{IndexEncode, IndexDecode, 29},
+		{ByteEncode, ByteDecode, 52},
+		{AZEncode, AZDecode, 52},
 	}
 
 	for _, test := range tests {
@@ -25,7 +27,7 @@ func TestEncoders(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			rand.Seed(0) // make test reproducible
 
-			for i := 0; i < test.iterations; i++ {
+			for i := 0; i < iterations; i++ {
 				d := NewDeck()
 				d.Shuffle()
 
