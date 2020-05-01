@@ -36,7 +36,7 @@ func TestEncoders(t *testing.T) {
 
 				decoded := test.decoder(encoded)
 				if decoded != d {
-					t.Errorf("round trip failed:\noriginal  %v\nroundtrip %v\n", d, decoded)
+					t.Errorf("round trip failed to decode %v:\noriginal  %v\nroundtrip %v\n", encoded, d, decoded)
 				}
 			}
 		})

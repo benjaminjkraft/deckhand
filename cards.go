@@ -1,6 +1,9 @@
 package cards
 
+// basic data structures, nothing here is specific to my solution
+
 import (
+	"fmt"
 	"math/rand"
 )
 
@@ -40,8 +43,17 @@ type Card uint8
 func (c Card) Suit() Suit { return Suit(uint8(c) / NumRanks) }
 func (c Card) Rank() Rank { return Rank(uint8(c) % NumRanks) }
 func (c Card) String() string {
+	if c >= Card(DeckSize) {
+		return fmt.Sprintf("?%d", c)
+	}
 	// https://en.wikipedia.org/wiki/Playing_cards_in_Unicode
-	return string(rune(0x1f0a1) + rune(c.Rank()) + 0x10*rune(c.Suit()))
+	rankForUnicode := c.Rank()
+	if rankForUnicode >= Queen {
+		// unicode has Knight between Jack and Queen
+		rankForUnicode += 1
+	}
+	suitForUnicode := []rune{0x30, 0x20, 0x10, 0}[c.Suit()]
+	return string(rune(0x1f0a1) + rune(rankForUnicode) + suitForUnicode)
 }
 
 type Deck [DeckSize]Card
@@ -54,6 +66,6 @@ func NewDeck() Deck {
 	return d
 }
 
-func (d Deck) Shuffle() {
+func (d *Deck) Shuffle() {
 	rand.Shuffle(len(d), func(i, j int) { d[i], d[j] = d[j], d[i] })
 }
