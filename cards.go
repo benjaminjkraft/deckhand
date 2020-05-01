@@ -14,7 +14,7 @@ const (
 	Hearts
 	Diamonds
 	Clubs
-	NumSuits uint8 = iota
+	NumSuits Card = iota
 )
 
 type Rank uint8
@@ -33,15 +33,15 @@ const (
 	Jack
 	Queen
 	King
-	NumRanks uint8 = iota
+	NumRanks Card = iota
 )
 
 const DeckSize = NumSuits * NumRanks
 
 type Card uint8
 
-func (c Card) Suit() Suit { return Suit(uint8(c) / NumRanks) }
-func (c Card) Rank() Rank { return Rank(uint8(c) % NumRanks) }
+func (c Card) Suit() Suit { return Suit(c / NumRanks) }
+func (c Card) Rank() Rank { return Rank(c % NumRanks) }
 func (c Card) String() string {
 	if c >= Card(DeckSize) {
 		return fmt.Sprintf("?%d", c)

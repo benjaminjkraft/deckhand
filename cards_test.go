@@ -1,6 +1,7 @@
 package cards
 
 import (
+	"fmt"
 	"math/rand"
 	"path/filepath"
 	"reflect"
@@ -42,4 +43,25 @@ func TestEncoders(t *testing.T) {
 		})
 	}
 
+}
+
+func TestShuffle(t *testing.T) {
+	rand.Seed(0) // make test reproducible
+
+	ordered := NewDeck()
+
+	shuffled := NewDeck()
+	shuffled.Shuffle()
+
+	if ordered == shuffled {
+		t.Errorf("shuffle didn't shuffle %v", ordered)
+	}
+}
+
+func TestString(t *testing.T) {
+	expected := "[🂡 🂢 🂣 🂤 🂥 🂦 🂧 🂨 🂩 🂪 🂫 🂭 🂮 🂱 🂲 🂳 🂴 🂵 🂶 🂷 🂸 🂹 🂺 🂻 🂽 🂾 🃁 🃂 🃃 🃄 🃅 🃆 🃇 🃈 🃉 🃊 🃋 🃍 🃎 🃑 🃒 🃓 🃔 🃕 🃖 🃗 🃘 🃙 🃚 🃛 🃝 🃞]"
+	actual := fmt.Sprintf("%v", NewDeck())
+	if actual != expected {
+		t.Errorf("stringer incorrect:\ngot  %v\nwant %v", actual, expected)
+	}
 }
