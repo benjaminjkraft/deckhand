@@ -2,6 +2,7 @@ package cards
 
 import (
 	"math/rand"
+	"path/filepath"
 	"reflect"
 	"runtime"
 	"testing"
@@ -19,7 +20,7 @@ func TestEncoders(t *testing.T) {
 
 	for _, test := range tests {
 		test := test
-		name := runtime.FuncForPC(reflect.ValueOf(test.encoder).Pointer()).Name()
+		name := filepath.Base(runtime.FuncForPC(reflect.ValueOf(test.encoder).Pointer()).Name())
 		t.Run(name, func(t *testing.T) {
 			rand.Seed(0) // make test reproducible
 
