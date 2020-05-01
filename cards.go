@@ -10,10 +10,10 @@ import (
 type Suit uint8
 
 const (
-	Clubs Suit = iota
-	Diamonds
+	Spades Suit = iota
 	Hearts
-	Spades
+	Diamonds
+	Clubs
 	NumSuits uint8 = iota
 )
 
@@ -46,14 +46,15 @@ func (c Card) String() string {
 	if c >= Card(DeckSize) {
 		return fmt.Sprintf("?%d", c)
 	}
+
 	// https://en.wikipedia.org/wiki/Playing_cards_in_Unicode
 	rankForUnicode := c.Rank()
 	if rankForUnicode >= Queen {
 		// unicode has Knight between Jack and Queen
 		rankForUnicode += 1
 	}
-	suitForUnicode := []rune{0x30, 0x20, 0x10, 0}[c.Suit()]
-	return string(rune(0x1f0a1) + rune(rankForUnicode) + suitForUnicode)
+
+	return string(rune(0x1f0a1) + rune(rankForUnicode) + rune(0x10*c.Suit()))
 }
 
 type Deck [DeckSize]Card
